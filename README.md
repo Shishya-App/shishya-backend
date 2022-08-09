@@ -45,26 +45,43 @@ python manage.py runserver
 
 1. Register user: https://shishya-backend-user.herokuapp.com/register/
 ```
+curl --location --request POST 'https://shishya-backend-user.herokuapp.com/register/' \
+--header 'Content-Type: application/json' \
 --data-raw '{
     "email": "202051214@iiitvadodara.ac.in",
     "password": "demopass",
-    "username": "mugdha2"
+    "username": "mugdha1"
 }'
 ```
 
 2. Login user: https://shishya-backend-user.herokuapp.com/login/
 ```
+curl --location --request POST 'https://shishya-backend-user.herokuapp.com/login/' \
+--header 'Content-Type: application/json' \
 --data-raw '{
     "password": "demopass",
-    "username": "mugdha2"
+    "username": "mugdha1"
 }'
 ```
 
 3. Get API personal details of user: https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/
 Access token required to pass in bearer token
-![image](https://user-images.githubusercontent.com/85048574/183628885-f5401eae-4e3a-44dc-9214-fdb799b2bc06.png)
+
+Curl Request:
+```
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3MzIyNTA4LCJpYXQiOjE2NjAwNDI1MDgsImp0aSI6IjRjZDg3ZDFmODFmYjQ1YmFhOGUxM2M4OTBmMzA5MDUyIiwidXNlcl9pZCI6Mn0.CNaBL33gdotywmoFak0AaCJDKUlLnj0a3m6SPbzWxrU'
+```
+
+
+![image](https://user-images.githubusercontent.com/85048574/183633002-613816e1-e033-4dea-a2a3-0c498fd998b9.png)
 
 4. Get API, get documents of an user: https://shishya-backend-user.herokuapp.com/adminpanel/document/1
 Access token required to pass in bearer token
-![image](https://user-images.githubusercontent.com/85048574/183629085-73c50b38-adae-4d31-81a1-651255904abf.png)
+Curl Request
+
+```
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/document/1'
+```
+![image](https://user-images.githubusercontent.com/85048574/183633206-520758e4-18a8-4d70-b7f5-3240e61a8762.png)
 
