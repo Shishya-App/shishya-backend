@@ -1,3 +1,21 @@
 from django.contrib import admin
+from adminpanel.models import PersonalDetails,SSC,HSC,MigrationCertificate,JEEmarksheet,JEEallotmentLetter,DisabilityCertificate,DomicileCertificate,PAN,BirthCertificate,Passport,SportsCertificate,TransferCertificate,CasteCertificate,IncomeCertificate,MedicalCertificate,NationalityCertificate,DocumentModel
 
-# Register your models here.
+admin.site.register(PersonalDetails)
+admin.site.register(SSC)
+admin.site.register(HSC)
+admin.site.register(MigrationCertificate)
+admin.site.register(JEEmarksheet)
+admin.site.register(JEEallotmentLetter)
+admin.site.register(DisabilityCertificate)
+admin.site.register(CasteCertificate)
+admin.site.register(DomicileCertificate)
+admin.site.register(PAN)
+admin.site.register(BirthCertificate)
+admin.site.register(Passport)
+admin.site.register(SportsCertificate)
+admin.site.register(TransferCertificate)
+admin.site.register(IncomeCertificate)
+admin.site.register(MedicalCertificate)
+admin.site.register(NationalityCertificate)
+admin.site.register(DocumentModel)
