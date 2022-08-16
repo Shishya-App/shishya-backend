@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from base.models import User
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -152,3 +153,97 @@ class PersonalDetails(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Form(models.Model):
+
+    class Meta:
+        verbose_name = _("Form")
+        verbose_name_plural = _("Forms")
+        ordering = ['id']
+
+    title = models.CharField(max_length=255, default=_(
+        "New Form"), verbose_name=_("Form Title"))
+    date_created = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
+class Updated(models.Model):
+
+    date_updated = models.DateTimeField(
+        verbose_name=_("Last Updated"), auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Question(models.Model):
+
+    form = models.ForeignKey(
+        Form, related_name='question', on_delete=models.CASCADE, verbose_name=_("Form Title"))
+    
+    TYPE = (
+        ('mcq_one', 'MCQ with single possible answer'),
+        ('text', 'Text based answer'),
+        ('file_upload', 'File Upload answer')
+    )
+    
+    technique = models.CharField(
+       max_length=55, choices=TYPE)
+    title = models.CharField(max_length=255, verbose_name=_("Title"))
+    date_created = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Date Created"))
+    is_active = models.BooleanField(
+        default=False, verbose_name=_("Active Status"))
+
+    def __str__(self):
+        return self.title
+
+
+class Answer(Updated):
+
+    class Meta:
+        verbose_name = _("Answer")
+        verbose_name_plural = _("Answers")
+        ordering = ['id']
+
+    question = models.ForeignKey(
+        Question, related_name='answer', on_delete=models.CASCADE)
+    
+class Choice(models.Model):
+    choice_text = models.CharField(max_length=200)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.choice_text
+    
+class TextAnswer(Answer):
+    answer_text = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return str(self.id)
+
+
+class McqOneAnswer(Answer):
+    choice = models.ForeignKey(Choice,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.choice.choice_text
+    
+class FileUploadAnswer(Answer):
+    File= models.FileField(upload_to ="my_documents",blank=True)
+    
+    def __str__(self):
+        return str(self.id)
