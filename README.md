@@ -92,10 +92,10 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 
 ```
 
-6.  https://shishya-backend-user.herokuapp.com/adminpanel/questions/Form1
+6.   https://shishya-backend-user.herokuapp.com/adminpanel/form1
 
 ```
-curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/Form1' \
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/form1' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 
 ```
