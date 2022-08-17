@@ -43,7 +43,15 @@ python manage.py runserver
 
 ## APIs in use
 
-1. Register user: https://shishya-backend-user.herokuapp.com/register/
+1.
+```http
+https://shishya-backend-user.herokuapp.com/register/
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| - | - | Registers new users (working both admin and user side) |
+
 ```
 curl --location --request POST 'https://shishya-backend-user.herokuapp.com/register/' \
 --header 'Content-Type: application/json' \
@@ -54,7 +62,17 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/regis
 }'
 ```
 
-2. Login user: https://shishya-backend-user.herokuapp.com/login/
+2.
+
+```http
+https://shishya-backend-user.herokuapp.com/login/
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| - | - | Login user (working both admin and user side) |
+
+ 
 ```
 curl --location --request POST 'https://shishya-backend-user.herokuapp.com/login/' \
 --header 'Content-Type: application/json' \
@@ -64,20 +82,33 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/login
 }'
 ```
 
-3. Get API personal details of user: https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/
-Access token required to pass in bearer token
+3. 
 
-Curl Request:
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` | Get API personal details of user|
+
 ```
 curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/' \
---header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3MzIyNTA4LCJpYXQiOjE2NjAwNDI1MDgsImp0aSI6IjRjZDg3ZDFmODFmYjQ1YmFhOGUxM2M4OTBmMzA5MDUyIiwidXNlcl9pZCI6Mn0.CNaBL33gdotywmoFak0AaCJDKUlLnj0a3m6SPbzWxrU'
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 ```
 
 
 ![image](https://user-images.githubusercontent.com/85048574/183633002-613816e1-e033-4dea-a2a3-0c498fd998b9.png)
 
-4. Get API, get documents of an user: https://shishya-backend-user.herokuapp.com/adminpanel/document/1
-Access token required to pass in bearer token
+4. 
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/document/1
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` | Get API, get documents of an user|
+
+
 Curl Request
 
 ```
@@ -85,8 +116,18 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 ```
 ![image](https://user-images.githubusercontent.com/85048574/183633206-520758e4-18a8-4d70-b7f5-3240e61a8762.png)
 
-5.  Get request to get all questions of a form: https://shishya-backend-user.herokuapp.com/adminpanel/questions/1
-Formally: https://shishya-backend-user.herokuapp.com/adminpanel/questions/<form_id>
+5.
+
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/questions/
+https://shishya-backend-user.herokuapp.com/adminpanel/questions/${form_id}
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` | View all questions from all forms|
+| `id` | `int` | View questions of a particular Form|
+
+
 ```
 curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/1' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
@@ -95,8 +136,16 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 ![image](https://user-images.githubusercontent.com/85048574/185064105-242efe11-267d-44fa-8a93-21b73f2a9f96.png)
 
 
-6.   https://shishya-backend-user.herokuapp.com/adminpanel/form/1
-Formally: https://shishya-backend-user.herokuapp.com/adminpanel/form/<form_id>
+6. 
+
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/form/
+https://shishya-backend-user.herokuapp.com/adminpanel/form/${form_id}
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` | View all Forms|
+| `id` | `int` | View form from form.id|
 
 ```
 curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/form/1' \
@@ -105,7 +154,14 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 ```
 ![image](https://user-images.githubusercontent.com/85048574/185063748-544e2da5-daaf-4b2d-8b17-c30d4cfa3c8e.png)
 
-7. Post Request to **create forms**: https://shishya-backend-user.herokuapp.com/adminpanel/form/
+7.
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/form/
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` | Create new Form|
+
 ```
 curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/form/' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU' \
@@ -117,7 +173,13 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/admin
 ```
 ![image](https://user-images.githubusercontent.com/85048574/185063622-9df4e294-8b8d-4be2-a684-498663515ede.png)
 
-8. Add Question in existing form: https://shishya-backend-user.herokuapp.com/adminpanel/questions/
+8. 
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/form/
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` |Add question in an existing form|
 
 ```
 curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/' \
