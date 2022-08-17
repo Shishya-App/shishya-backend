@@ -51,6 +51,7 @@ class DocumentViews(APIView):
 class FormView(APIView):
     
     serializer_class = FormSerializer
+    permission_classes = [permissions.IsAuthenticated]
     # queryset = Form.objects.all()
     
     def get_object(self, pk):
@@ -79,7 +80,7 @@ class FormView(APIView):
 
 class FormQuestion(generics.GenericAPIView):
     
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
     
