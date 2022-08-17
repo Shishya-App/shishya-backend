@@ -175,7 +175,7 @@ class Form(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return str(str(self.id) + "_" + str(self.title))
 
 
 class Updated(models.Model):
@@ -190,7 +190,7 @@ class Updated(models.Model):
 class Question(models.Model):
 
     form = models.ForeignKey(
-        Form, related_name='question', on_delete=models.CASCADE, verbose_name=_("Form Title"))
+        Form, related_name='question', on_delete=models.CASCADE, verbose_name=_("Form.id"))
     
     TYPE = (
         ('mcq_one', 'MCQ with single possible answer'),

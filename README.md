@@ -99,3 +99,11 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 
 ```
+7. Post Request to create forms: https://shishya-backend-user.herokuapp.com/adminpanel/form/
+```
+{
+    "title": "Form2",
+    "owner": 2
+}
+```
+![image](https://user-images.githubusercontent.com/85048574/185040239-fb83f112-7a3e-4e8f-b836-395f4a80d9ab.png)
