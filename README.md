@@ -85,25 +85,48 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 ```
 ![image](https://user-images.githubusercontent.com/85048574/183633206-520758e4-18a8-4d70-b7f5-3240e61a8762.png)
 
-5.  https://shishya-backend-user.herokuapp.com/adminpanel/questions/Form1
+5.  Get request to get all questions of a form: https://shishya-backend-user.herokuapp.com/adminpanel/questions/1
+Formally: https://shishya-backend-user.herokuapp.com/adminpanel/questions/<form_id>
 ```
-curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/Form1' \
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/1' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 
 ```
+![image](https://user-images.githubusercontent.com/85048574/185064105-242efe11-267d-44fa-8a93-21b73f2a9f96.png)
+
 
 6.   https://shishya-backend-user.herokuapp.com/adminpanel/form/1
+Formally: https://shishya-backend-user.herokuapp.com/adminpanel/form/<form_id>
 
 ```
 curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/form/1' \
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 
 ```
-7. Post Request to create forms: https://shishya-backend-user.herokuapp.com/adminpanel/form/
+![image](https://user-images.githubusercontent.com/85048574/185063748-544e2da5-daaf-4b2d-8b17-c30d4cfa3c8e.png)
+
+7. Post Request to **create forms**: https://shishya-backend-user.herokuapp.com/adminpanel/form/
 ```
-{
+curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/form/' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "title": "Form2",
     "owner": 2
-}
+}'
 ```
-![image](https://user-images.githubusercontent.com/85048574/185040239-fb83f112-7a3e-4e8f-b836-395f4a80d9ab.png)
+![image](https://user-images.githubusercontent.com/85048574/185063622-9df4e294-8b8d-4be2-a684-498663515ede.png)
+
+8. Add Question in existing form: https://shishya-backend-user.herokuapp.com/adminpanel/questions/
+
+```
+curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "form": 1,
+    "title": "F2",
+    "technique": "file_upload"
+}'
+
+```
