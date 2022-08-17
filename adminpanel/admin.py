@@ -8,8 +8,7 @@ from adminpanel.models import (HSC, PAN, SSC, BirthCertificate,
                                MigrationCertificate, NationalityCertificate,
                                Passport, PersonalDetails, Question,
                                SportsCertificate, TransferCertificate,
-                               Category,Form,
-                               Answer)
+                               Category,Form)
 
 admin.site.register(PersonalDetails)
 admin.site.register(SSC)
@@ -30,7 +29,5 @@ admin.site.register(MedicalCertificate)
 admin.site.register(NationalityCertificate)
 admin.site.register(DocumentModel)
 admin.site.register(Question)
-# admin.site.register(Updated)
-# admin.site.register(Answer)
 admin.site.register(Form)
 admin.site.register(Category)

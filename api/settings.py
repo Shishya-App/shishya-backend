@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'adminpanel',
     'base',
+    'userpanel',
 ]
 
 AUTH_USER_MODEL = "base.User"

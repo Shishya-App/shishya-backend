@@ -1,13 +1,12 @@
 from django.http import Http404
-from rest_framework import permissions, status
-from rest_framework import generics
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adminpanel.models import DocumentModel, PersonalDetails,Form, Question
+from adminpanel.models import DocumentModel, Form, PersonalDetails, Question
+
 from .serializers import (DocumentSerializer, FormSerializer,
-                                    PersonalDetailsSerializer, 
-                                    QuestionSerializer)
+                          PersonalDetailsSerializer, QuestionSerializer)
 
 # Create your views here.
 
@@ -23,8 +22,7 @@ class PersonalDetailsViews(APIView):
         personal_detail = PersonalDetails.objects.filter(user=account)
         personal_detail_data = PersonalDetailsSerializer(personal_detail, many = True).data
         data["personal_details"] = [*personal_detail_data]
-        # serializer = PersonalDetailsSerializer(data, many=True)
-        # print(data)
+
         return Response(
             data,
             status = status.HTTP_200_OK
@@ -54,6 +52,8 @@ class FormView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     # queryset = Form.objects.all()
     
+    """View Form"""
+    
     def get_object(self, pk):
         try:
             return Form.objects.get(pk=pk)
@@ -71,6 +71,8 @@ class FormView(APIView):
         return Response(serializer.data,
             status = status.HTTP_200_OK)
         
+    """Create Form"""
+        
     def post(self, request, format=None):
         serializer = FormSerializer(data=request.data)
         if serializer.is_valid():
@@ -83,6 +85,8 @@ class FormQuestion(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
+    
+    """View all questions of form"""
     
     def get_object(self, pk):
         try:
