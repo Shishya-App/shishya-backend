@@ -175,7 +175,7 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/admin
 
 8. 
 ```http
-https://shishya-backend-user.herokuapp.com/adminpanel/form/
+https://shishya-backend-user.herokuapp.com/adminpanel/questions/
 ```
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
