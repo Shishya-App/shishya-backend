@@ -1,13 +1,13 @@
 from django.http import Http404
 from rest_framework import permissions, status
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminpanel.models import DocumentModel, PersonalDetails,Form, Question
 from .serializers import (DocumentSerializer, FormSerializer,
                                     PersonalDetailsSerializer, 
-                                    QuestionSerializer,
-                                    RandomQuestionSerializer)
+                                    QuestionSerializer)
 
 # Create your views here.
 
@@ -67,26 +67,44 @@ class FormView(APIView):
     def get(self, request, format=None, **kwargs):
         form = Form.objects.all()
         serializer = FormSerializer(form, many=True)
-        # form = Form.objects.filter(form = kwargs['pk'])
-        # serializer = FormSerializer(form, many=True)
-        # data = dict()
-        # personal_detail_data = QuestionSerializer(form, many = True).data
-        # data["questions"] = [*personal_detail_data]
         return Response(serializer.data,
             status = status.HTTP_200_OK)
+        
+    def post(self, request, format=None):
+        serializer = FormSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class RandomQuestion(APIView):
-
-    def get(self, request, format=None, **kwargs):
-        question = Question.objects.filter(form__title=kwargs['topic']).order_by('?')[:1]
-        serializer = RandomQuestionSerializer(question, many=True)
-        return Response(serializer.data)
-
-class FormQuestion(APIView):
+class FormQuestion(generics.GenericAPIView):
     
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, format=None, **kwargs):
-        form = Question.objects.filter(form__title=kwargs['title'])
-        serializer = QuestionSerializer(form, many=True)
+    # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
+    
+    def get_object(self, pk):
+        try:
+            return Form.objects.get(pk=pk)
+        except Form.DoesNotExist:
+            raise Http404
+        
+    def get(self, pk):
+        form = self.get_object(pk)
+        serializer = QuestionSerializer(form)
         return Response(serializer.data)
+    
+    def get(self, request, format=None, **kwargs):
+        form = Question.objects.all()
+        serializer = QuestionSerializer(form, many=True)
+        return Response(serializer.data,status = status.HTTP_200_OK)
+    
+    """Add questions to existing form"""
+    
+    def post(self, request, format=None):
+        serializer = QuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

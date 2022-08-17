@@ -21,17 +21,6 @@ class AnswerSerializer(serializers.ModelSerializer):
             'answer_text',
         ]
 
-class RandomQuestionSerializer(serializers.ModelSerializer):
-
-    answer = AnswerSerializer(many=True, read_only=True)
-
-    class Meta:
-    
-        model = Question
-        fields = [
-            'title','answer',
-        ]
-        
 class FormSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -42,14 +31,12 @@ class FormSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
 
     answer = AnswerSerializer(many=True, read_only=True)
-    # form = FormSerializer(read_only=True)
-    form_id = Form.id
 
     class Meta:
     
         model = Question
         fields = [
-            'id','form_id','title','answer','technique',
+            'id','form','title','answer','technique',
         ]
         
 
