@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from adminpanel.models import PersonalDetails,DocumentModel,Form, Question, Answer
+
+from adminpanel.models import (Answer, DocumentModel, FileUploadAnswer, Form,
+                               McqOneAnswer, PersonalDetails, Question,
+                               TextAnswer)
+
 
 class PersonalDetailsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,13 +16,40 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class AnswerSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         
         model = Answer
         fields = [
             'id',
             'answer_text',
+        ]
+class TextTypeAnswerSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        
+        model = TextAnswer
+        fields = [
+            'id',
+            'answer_text',
+        ]
+class MCQTypeAnswerSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        
+        model = McqOneAnswer
+        fields = [
+            'id',
+            'choice',
+        ]
+class FileTypeAnswerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        
+        model = FileUploadAnswer
+        fields = [
+            'id',
+            'File',
         ]
 
 class FormSerializer(serializers.ModelSerializer):
@@ -28,9 +59,31 @@ class FormSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class FileTypeQuestionSerializer(serializers.ModelSerializer):
 
-    answer = AnswerSerializer(many=True, read_only=True)
+    answer = FileTypeAnswerSerializer(many=True, read_only=True)
+
+    class Meta:
+    
+        model = Question
+        fields = [
+            'id','form','title','answer','technique',
+        ]
+        
+class MCQTypeQuestionSerializer(serializers.ModelSerializer):
+    
+    answer = MCQTypeAnswerSerializer(many=True, read_only=True)
+
+    class Meta:
+    
+        model = Question
+        fields = [
+            'id','form','title','answer','technique',
+        ]
+        
+class TextTypeQuestionSerializer(serializers.ModelSerializer):
+    
+    answer = TextTypeAnswerSerializer(many=True, read_only=True)
 
     class Meta:
     
