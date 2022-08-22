@@ -17,11 +17,6 @@ class ProfileDocumentView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProfileDocumentSerializer
     queryset = ProfileDocumentModel.objects.all()
-    # def get_object(self, pk):
-    #     try:
-    #         return ProfileDocumentModel.objects.get(pk=pk)
-    #     except ProfileDocumentModel.DoesNotExist:
-    #         raise Http404
     def get(self, request):
         
         serializer = self.serializer_class(data=request.data)
@@ -51,10 +46,6 @@ class ProfileDocumentView(generics.GenericAPIView):
             status=status.HTTP_200_OK
         )
         
-    # def get(self, request, pk):
-    #     snippet = self.get_object(pk)
-    #     serializer = ProfileDocumentSerializer(snippet)
-    #     return Response(serializer.data)
     
 class CustomDocumentView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -96,3 +87,40 @@ class CustomDocumentView(generics.GenericAPIView):
             {"success": "File uploaded successfully"},
             status=status.HTTP_201_CREATED
         )
+
+class RecentUpload(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ProfileDocumentSerializer
+    queryset = ProfileDocumentModel.objects.all()
+
+    def get(self, request):
+        
+        data = dict()
+        data["user"]= request.user
+        r = request.user
+
+        cus = CustomDocumentUploadModel.objects.filter(user=r).order_by('-upload_time')
+        cus_data = CustomDocumentSerializer(cus , many = True).data
+        view_doc= dict()
+        
+        view_doc["Recent Upload"]= [*cus_data]
+        len_view_doc = len(view_doc["Recent Upload"])
+        # print(len_view_doc)
+        if len_view_doc<=5:
+        
+            return Response(
+                view_doc,
+                status=status.HTTP_200_OK
+            )
+        
+        else:
+            final_doc= list()
+            for x in view_doc["Recent Upload"]:
+                final_doc.append(x)
+                if len(final_doc) ==5:
+                    break
+
+            return Response(
+                final_doc,
+                status=status.HTTP_200_OK
+            )
