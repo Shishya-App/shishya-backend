@@ -56,7 +56,7 @@ class ProfileDocumentView(generics.GenericAPIView):
     #     return Response(serializer.data)
     
 class CustomDocumentView(generics.GenericAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CustomDocumentSerializer
     queryset =CustomDocumentUploadModel.objects.all()
     
@@ -82,7 +82,16 @@ class CustomDocumentView(generics.GenericAPIView):
     
     def post(self, request, format=None):
         serializer = CustomDocumentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+        data = serializer.validated_data
+        user = User.objects.get(id=request.user.id)
+        data["user"]= user
+        # print(request.user.id)
+        cus = CustomDocumentUploadModel.objects.create(**data)
+        cus.save()
+        
+        return Response(
+            {"success": "File uploaded successfully"},
+            status=status.HTTP_201_CREATED
+        )
