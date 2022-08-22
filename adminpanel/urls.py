@@ -1,6 +1,7 @@
 from django.urls import path
 from adminpanel.views import PersonalDetailsViews,DocumentViews, FormView, FormQuestionFile
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('form/', FormView.as_view(), name='form'),
@@ -11,3 +12,4 @@ urlpatterns = [
     path('document/', DocumentViews.as_view(), name="document"),
     path('document/<int:pk>', DocumentViews.as_view(), name="document"),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
