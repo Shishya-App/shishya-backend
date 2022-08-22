@@ -173,7 +173,7 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/admin
 ```
 ![image](https://user-images.githubusercontent.com/85048574/185063622-9df4e294-8b8d-4be2-a684-498663515ede.png)
 
-8. 
+8. (In-progress, don't use)
 ```http
 https://shishya-backend-user.herokuapp.com/adminpanel/questions/
 ```
@@ -191,4 +191,69 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/admin
     "technique": "file_upload"
 }'
 
+```
+
+9. 
+
+```http
+https://shishya-backend-user.herokuapp.com/userpanel/profile-documents/
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` |Retrieve NAD+Custom uploaded documents in profile section|
+
+```
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/userpanel/profile-documents/' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc4MzQwODgwLCJpYXQiOjE2NjEwNjA4ODAsImp0aSI6IjRlOWYzZTZkZjE3NjRlMDI4M2M5ZGJmNmEwN2YxZWZjIiwidXNlcl9pZCI6Mn0.-X4_PHZ2XOBo_oTkOugPa-h9dRdrlmrZDHj-tXUVAps'
+
+```
+sample output
+```
+{
+    "user": 2,
+    "NAD_Document": [
+        {
+            "id": 1,
+            "user": 2,
+            "SSC": 1,
+            "HSC": 1,
+            "MigrationCertificate": 1,
+            "JEEmarksheet": 1,
+            "JEEallotmentLetter": 1,
+            "DisabilityCertificate": 1,
+            "DomicileCertificate": 1,
+            "PAN": 1,
+            "BirthCertificate": 1,
+            "SportsCertificate": 1,
+            "TransferCertificate": 1,
+            "CasteCertificate": 1,
+            "Passport": 1,
+            "IncomeCertificate": 1,
+            "MedicalCertificate": 1,
+            "NationalityCertificate": 1
+        }
+    ],
+    "Custom_Document": []
+}
+```
+"Custom_Document": [] , JSON in this will get auto appended whenever user uploads the document
+
+10. 
+
+```http
+https://shishya-backend-user.herokuapp.com/userpanel/custom-document/
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` |Upload custom documents in profile section|
+
+How to use?
+```
+{
+    "File": <upload from PC>, (required)
+    "PagesNo": <enter/retreive>, (required)
+    "Title": "Sample Title", (required)
+    "isVerified": false, (default)
+    "user": <This is auto fill field, which is handled by backend>
+}
 ```
