@@ -14,6 +14,7 @@ from adminpanel.serializers import DocumentSerializer
 # Create your views here.
 
 class ProfileDocumentView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProfileDocumentSerializer
     queryset = ProfileDocumentModel.objects.all()
     # def get_object(self, pk):
@@ -31,17 +32,17 @@ class ProfileDocumentView(generics.GenericAPIView):
         data = dict()
         data["user"]= request.user
         r = request.user
-        print(data)
         doc = DocumentModel.objects.filter(user=r)
         doc1 = DocumentModel.objects.get(user=r)
         doc_data =DocumentSerializer(doc, many = True).data
         cus = CustomDocumentUploadModel.objects.filter(user=r)
         cus_data = CustomDocumentSerializer(cus, many = True).data
         data["NAD_Documents"]= doc1
-        print(doc)
-        custom_document = ProfileDocumentModel.objects.create(**data)
-        custom_document.save()
+        """uncomment in post request"""
+        # custom_document = ProfileDocumentModel.objects.create(**data)
+        # custom_document.save()
         view_doc= dict()
+        view_doc["user"]= request.user.id
         view_doc["NAD_Document"]= [*doc_data]
         view_doc["Custom_Document"]= [*cus_data]
         # print(data)
