@@ -5,8 +5,7 @@ from rest_framework.views import APIView
 
 from adminpanel.models import DocumentModel, Form, PersonalDetails, Question
 
-from .serializers import (DocumentSerializer, FileTypeAnswerSerializer, FormSerializer, MCQTypeQuestionSerializer,
-                          PersonalDetailsSerializer, TextTypeQuestionSerializer)
+from .serializers import *
 
 # Create your views here.
 
@@ -100,14 +99,14 @@ class FormQuestionText(generics.GenericAPIView):
         return Response(serializer.data)
     
     def get(self, request, format=None, **kwargs):
-        form = Question.objects.all()
+        form = Question.objects.filter(technique='text')
         serializer = TextTypeQuestionSerializer(form, many=True)
         return Response(serializer.data,status = status.HTTP_200_OK)
     
     """Add questions to existing form"""
     
     def post(self, request, format=None):
-        serializer = QuestionSerializer(data=request.data)
+        serializer = TextTypeQuestionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -134,7 +133,7 @@ class FormQuestionMCQ(generics.GenericAPIView):
         return Response(serializer.data)
     
     def get(self, request, format=None, **kwargs):
-        form = Question.objects.all()
+        form = Question.objects.filter(technique='mcq_one')
         serializer = MCQTypeQuestionSerializer(form, many=True)
         return Response(serializer.data,status = status.HTTP_200_OK)
     
@@ -150,7 +149,7 @@ class FormQuestionMCQ(generics.GenericAPIView):
 class FormQuestionFile(generics.GenericAPIView):
     
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = FileTypeAnswerSerializer
+    serializer_class = FileTypeQuestionSerializer
     queryset = Question.objects.all()
     
     """View all questions of form"""
@@ -163,20 +162,44 @@ class FormQuestionFile(generics.GenericAPIView):
         
     def get(self, pk):
         form = self.get_object(pk)
-        serializer = FileTypeAnswerSerializer(form)
+        serializer = FileTypeQuestionSerializer(form)
         return Response(serializer.data)
     
     def get(self, request, format=None, **kwargs):
-        form = Question.objects.all()
-        serializer = FileTypeAnswerSerializer(form, many=True)
+        form = Question.objects.filter(technique='file_upload')
+        serializer = FileTypeQuestionSerializer(form, many=True)
         return Response(serializer.data,status = status.HTTP_200_OK)
     
     """Add questions to existing form"""
     
     def post(self, request, format=None):
-        serializer = FileTypeAnswerSerializer(data=request.data)
+        serializer = FileTypeQuestionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    
+class AllQuestionsView(generics.GenericAPIView):
+    
+    
+    def get(self,request,pk, **kwargs):
+        data= dict()
+        form = Form.objects.get(pk=pk)
+        
+        text = Question.objects.filter(technique='text', form= form)
+        text_data =TextTypeQuestionSerializer(text, many = True).data
+        data["text_questions"] = [*text_data] 
+        
+        file = Question.objects.filter(technique='file_upload', form= form)
+        file_data =FileTypeQuestionSerializer(file, many = True).data
+        data["file_questions"] = [*file_data] 
+        
+        mcq = Question.objects.filter(technique='mcq', form= form)
+        mcq_data =MCQTypeQuestionSerializer(mcq, many = True).data
+        data["MCQ_questions"] = [*mcq_data] 
+        
+        return Response(
+            data,
+            status = status.HTTP_200_OK
+        )
