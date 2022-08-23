@@ -119,12 +119,10 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 5.
 
 ```http
-https://shishya-backend-user.herokuapp.com/adminpanel/questions/
-https://shishya-backend-user.herokuapp.com/adminpanel/questions/${form_id}
+https://shishya-backend-user.herokuapp.com/adminpanel/all-questions/${form_id}
 ```
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `Bearer Token` | `String` | View all questions from all forms|
 | `id` | `int` | View questions of a particular Form|
 
 
