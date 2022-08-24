@@ -171,27 +171,8 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/admin
 ```
 ![image](https://user-images.githubusercontent.com/85048574/185063622-9df4e294-8b8d-4be2-a684-498663515ede.png)
 
-8. (In-progress, don't use)
-```http
-https://shishya-backend-user.herokuapp.com/adminpanel/questions/
 ```
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `Bearer Token` | `String` |Add question in an existing form|
-
-```
-curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/questions/' \
---header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "form": 1,
-    "title": "F2",
-    "technique": "file_upload"
-}'
-
-```
-
-9. 
+8. 
 
 ```http
 https://shishya-backend-user.herokuapp.com/userpanel/profile-documents/
@@ -236,7 +217,7 @@ sample output
 ```
 "Custom_Document": [] , JSON in this will get auto appended whenever user uploads the document
 
-10. 
+9. 
 
 ```http
 https://shishya-backend-user.herokuapp.com/userpanel/custom-document/
@@ -256,7 +237,7 @@ How to use?
 }
 ```
 
-11. 
+10. 
 
 ```http
 https://shishya-backend-user.herokuapp.com/userpanel/recent-upload/
