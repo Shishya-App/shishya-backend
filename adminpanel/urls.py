@@ -15,4 +15,3 @@ urlpatterns = [
     path('document/<int:pk>/', DocumentViews.as_view(), name="document"),
     path('all-questions/<int:pk>', AllQuestionsView.as_view(), name="all-questions"),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

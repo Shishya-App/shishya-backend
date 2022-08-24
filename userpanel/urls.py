@@ -10,5 +10,3 @@ urlpatterns = [
     path('recent-upload/', RecentUpload.as_view(), name= "recent-upload"),
     # path('profile-documents/<int:pk>',ProfileDocumentView.as_view(), name= "profile-documents"),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

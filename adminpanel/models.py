@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 class SSC(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
@@ -18,49 +18,49 @@ class SSC(models.Model):
 class HSC(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class MigrationCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class JEEmarksheet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class JEEallotmentLetter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class DisabilityCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class DomicileCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class PAN(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
@@ -75,49 +75,49 @@ class BirthCertificate(models.Model):
     
 class Passport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class SportsCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class TransferCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class CasteCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class  IncomeCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class  MedicalCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
     
 class  NationalityCertificate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     PrivateKey= models.CharField(max_length=500, blank=True)
     isVerified= models.BooleanField(default=True)
     
@@ -243,7 +243,7 @@ class McqOneAnswer(Answer):
         return self.choice.choice_text
     
 class FileUploadAnswer(Answer):
-    File= models.FileField(upload_to ="my_documents",blank=True)
+    File= models.FileField(upload_to ="docs",blank=True)
     
     def __str__(self):
         return str(self.id)
