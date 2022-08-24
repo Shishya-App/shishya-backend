@@ -154,9 +154,13 @@ EMAIL_HOST_PASSWORD="kbqfslxhwhvoxshq"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-STATIC_URL= '/static/'
-MEDIA_URL = '/media/' 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+
+# for media under development
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 SIMPLE_JWT = {
