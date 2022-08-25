@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from adminpanel.views import (AllQuestionsView, DocumentViews,
-                              FormQuestionFile, FormView, PersonalDetailsViews)
+                              FormQuestionFile, FormView, PersonalDetailsViews, NADdocumet)
 
 urlpatterns = [
     path('form/', FormView.as_view(), name='form'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('document/', DocumentViews.as_view(), name="document"),
     path('document/<int:pk>/', DocumentViews.as_view(), name="document"),
     path('all-questions/<int:pk>', AllQuestionsView.as_view(), name="all-questions"),
+    path('nad-docs/', NADdocumet.as_view(),  name= "nad-docs"),
 ]

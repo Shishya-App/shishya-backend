@@ -4,8 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminpanel.models import DocumentModel, Form, PersonalDetails, Question
+from base.models import User
 
 from .serializers import *
+
+from operator import itemgetter
 
 # Create your views here.
 
@@ -201,5 +204,30 @@ class AllQuestionsView(generics.GenericAPIView):
         
         return Response(
             data,
+            status = status.HTTP_200_OK
+        )
+        
+        
+class NADdocumet(APIView):
+    
+    def get(self, request):
+        data = dict()
+        user = User.objects.get(id=2)
+        
+        datadict= DocumentModel.objects.filter(user=user)
+        datadict_data = DocumentSerializer(datadict, many = True).data
+        data = [*datadict_data]
+        
+        print(type(data))
+        
+        sample_dict= dict()
+        sample_dict= data[0]
+
+        final_list= list(sample_dict.keys())
+        final_list.pop(0)
+        final_list.pop(0)
+        
+        return Response(
+            final_list,
             status = status.HTTP_200_OK
         )
