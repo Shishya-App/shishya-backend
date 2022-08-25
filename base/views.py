@@ -71,7 +71,10 @@ class LoginAPIView(generics.GenericAPIView):
             return Response({"status": "User not found"}, status=status.HTTP_404_NOT_FOUND)
         
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        data= serializer.data
+        data["first_name"]= user.first_name
+        data["last_name"]= user.last_name
+        return Response(data,status=status.HTTP_200_OK)
 
 class LogoutAPIView(generics.GenericAPIView):
     serializer_class = LogoutSerializer
