@@ -208,7 +208,8 @@ class Question(models.Model):
     TYPE = (
         ('mcq_one', 'MCQ with single possible answer'),
         ('text', 'Text based answer'),
-        ('file_upload', 'File Upload answer')
+        ('file_upload', 'File Upload answer'),
+        ('pre_verified', 'Auto Upload answer'),
     )
     
     technique = models.CharField(
@@ -257,6 +258,12 @@ class McqOneAnswer(Answer):
     
 class FileUploadAnswer(Answer):
     File= models.FileField(upload_to ="docs",blank=True)
+    
+    def __str__(self):
+        return str(self.id)
+    
+class PreVerifiedAnswer(Answer):
+    doc_id = models.IntegerField()
     
     def __str__(self):
         return str(self.id)

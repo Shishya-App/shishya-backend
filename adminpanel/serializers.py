@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from adminpanel.models import (Adhaar, Answer, DocumentModel, FileUploadAnswer, Form,
-                               McqOneAnswer, PersonalDetails, Question,
+                               McqOneAnswer, PersonalDetails, PreVerifiedAnswer, Question,
                                TextAnswer)
 
 
@@ -33,6 +33,17 @@ class TextTypeAnswerSerializer(serializers.ModelSerializer):
             'id',
             'answer_text',
         ]
+
+class PreVerifiedAnswerSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        
+        model = PreVerifiedAnswer
+        fields = [
+            'id',
+            'answer_text',
+        ]        
+
 class MCQTypeAnswerSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -92,9 +103,19 @@ class TextTypeQuestionSerializer(serializers.ModelSerializer):
             'id','form','title','answer','technique',
         ]
         
+class PreVerfiedQuestionTypeSerializer(serializers.ModelSerializer):
+    answer = PreVerifiedAnswerSerializer(many=True, read_only=True)
+
+    class Meta:
+    
+        model = Question
+        fields = [
+            'id','form','title','answer','technique',
+        ]
 
 class AdhaarSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Adhaar
         fields = '__all__'
+        
