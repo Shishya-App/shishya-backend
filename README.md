@@ -53,12 +53,15 @@ https://shishya-backend-user.herokuapp.com/register/
 | - | - | Registers new users (working both admin and user side) |
 
 ```
-curl --location --request POST 'https://shishya-backend-user.herokuapp.com/register/' \
+curl --location --request POST 'http://127.0.0.1:8000/register/' \
 --header 'Content-Type: application/json' \
+--header 'Cookie: csrftoken=62KjlMixjCOIaieXB4eUNjQidMxmzhsxHmcrjhXZpaPlzMvZb4EhCqdOQNg5t8wx' \
 --data-raw '{
-    "email": "202051214@iiitvadodara.ac.in",
+    "email": "mugdha4@iiitvadodara.ac.in",
     "password": "demopass",
-    "username": "mugdha1"
+    "username": "mugdha4",
+    "first_name": "Mugdha",
+    "last_name" : "Sharma"
 }'
 ```
 
@@ -80,6 +83,19 @@ curl --location --request POST 'https://shishya-backend-user.herokuapp.com/login
     "password": "demopass",
     "username": "mugdha1"
 }'
+```
+sample output of a user
+```
+{
+    "username": "mugdha4",
+    "tokens": {
+        "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY3ODY4Mzk1OCwiaWF0IjoxNjYxNDAzOTU4LCJqdGkiOiJlZjY4Y2YxYmNiNDI0ZWEwOWYwOThmNjBiYmUyOTIyYyIsInVzZXJfaWQiOjR9.DX9IIWP2j6fR6H2fkbicS56kwAuztZm0-HiX6mY2Y7U",
+        "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc4NjgzOTU4LCJpYXQiOjE2NjE0MDM5NTgsImp0aSI6Ijg1MzAyYTE0OWI2OTRmNDI4ODQ2MTNlMWIxNzkzMDY5IiwidXNlcl9pZCI6NH0.CPKuozrnFPdApmbTHoTjT2C38lu6FLQp2a3SjWAVGmU"
+    },
+    "first_name": "Mugdha",
+    "last_name": "Sharma"
+}
+
 ```
 
 3. 
