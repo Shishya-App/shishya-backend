@@ -6,6 +6,18 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
+class Adhaar(models.Model):
+    adhaar_no = models.CharField(max_length=255, blank=True)
+    phone_no = models.CharField(max_length=15, blank=True)
+    dob = models.DateField(auto_now_add=True, blank=True)
+    gender = models.CharField(max_length=255, blank=True)
+    
+class AdhaarFile(models.Model):
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    File= models.FileField(upload_to ="docs",blank=True)
+    PrivateKey= models.CharField(max_length=500, blank=True)
+    isVerified= models.BooleanField(default=True)
 
 class SSC(models.Model):
 
@@ -126,6 +138,7 @@ class DocumentModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     SSC = models.ForeignKey(SSC, on_delete=models.CASCADE, blank=True, null=True)
     HSC = models.ForeignKey(HSC, on_delete=models.CASCADE, blank=True, null=True)
+    AdhaarFile = models.ForeignKey(AdhaarFile, on_delete=models.CASCADE, blank=True, null=True)
     MigrationCertificate = models.ForeignKey(MigrationCertificate, on_delete=models.CASCADE, blank=True, null=True)
     JEEmarksheet = models.ForeignKey(JEEmarksheet, on_delete=models.CASCADE, blank=True, null= True)
     JEEallotmentLetter = models.ForeignKey(JEEallotmentLetter, on_delete=models.CASCADE, blank=True, null= True)

@@ -3,11 +3,13 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
 from rest_framework_simplejwt.tokens import RefreshToken
+import pyotp
 
 # Create your models here.
 
 class User(AbstractUser):
     email = models.EmailField(max_length=255, unique=True, db_index=True)
+    adhaar_no = models.CharField(max_length=255, unique=False, blank= False)
     is_verified= models.BooleanField(default=False)
     first_name = models.CharField(max_length=255, null=True, blank= False)
     last_name = models.CharField(max_length=255, null=True, blank= False)
@@ -21,3 +23,6 @@ class User(AbstractUser):
             'refresh':str(refresh),
             'access':str(refresh.access_token)
         }
+
+class verifyOTP(models.Model):
+    otp = models.CharField(max_length=100)

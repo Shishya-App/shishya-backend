@@ -8,7 +8,8 @@ from adminpanel.models import (HSC, PAN, SSC, BirthCertificate,
                                MigrationCertificate, NationalityCertificate,
                                Passport, PersonalDetails, Question,
                                SportsCertificate, TransferCertificate,
-                               Category,Form)
+                               Category,Form,
+                               Adhaar, AdhaarFile)
 
 admin.site.register(PersonalDetails)
 admin.site.register(SSC)
@@ -31,3 +32,5 @@ admin.site.register(DocumentModel)
 admin.site.register(Question)
 admin.site.register(Form)
 admin.site.register(Category)
+admin.site.register(Adhaar)
+admin.site.register(AdhaarFile)

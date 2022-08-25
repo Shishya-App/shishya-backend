@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from adminpanel.models import (Answer, DocumentModel, FileUploadAnswer, Form,
+from adminpanel.models import (Adhaar, Answer, DocumentModel, FileUploadAnswer, Form,
                                McqOneAnswer, PersonalDetails, Question,
                                TextAnswer)
 
@@ -93,3 +93,8 @@ class TextTypeQuestionSerializer(serializers.ModelSerializer):
         ]
         
 
+class AdhaarSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Adhaar
+        fields = '__all__'

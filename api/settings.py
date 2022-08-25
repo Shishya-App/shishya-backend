@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import django_heroku
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -196,3 +197,9 @@ SIMPLE_JWT = {
 }
 
 django_heroku.settings(locals())
+
+AUTH_USER_MODEL = "base.User"
+#Twilio
+TWILIO_PHONE = "+17472943310"
+TWILIO_ACCOUNT_SID = "ACf9b47deca688d4b5a0bb2c0689cd2863"
+TWILIO_AUTH_TOKEN = "059a99bb9acb0cbfd10e58735868ee8d"

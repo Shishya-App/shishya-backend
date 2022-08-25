@@ -218,8 +218,6 @@ class NADdocumet(APIView):
         datadict_data = DocumentSerializer(datadict, many = True).data
         data = [*datadict_data]
         
-        print(type(data))
-        
         sample_dict= dict()
         sample_dict= data[0]
 

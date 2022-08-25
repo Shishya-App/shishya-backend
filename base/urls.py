@@ -12,5 +12,4 @@ urlpatterns = [
     path('logout/', views.LogoutAPIView.as_view(), name="logout"),
     path('email-verify/', views.VerifyEmail.as_view(), name="email-verify"),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
 ]
