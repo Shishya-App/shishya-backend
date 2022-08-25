@@ -55,7 +55,7 @@ class RegisterView(generics.GenericAPIView):
         user=request.data
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
-        # serializer.save()
+        serializer.save()
         user_data = serializer.data
         # user = User.objects.get(email=user_data['email'])
         # print(user_data['adhaar_no'])
@@ -66,10 +66,31 @@ class RegisterView(generics.GenericAPIView):
         r= phone_no_data[0]
         phone_number = r['phone_no']
         otp = random.randint(1000,9999)
+        user = User.objects.get(email=user_data['email'])
+        
         message_handle = MessageHandler(phone_number,otp).send_otp_on_phone()
-        # print()
+        
+        user.otp= otp
+        user.save()
         return Response(user_data, status=status.HTTP_201_CREATED)
+        
+class VerifyOTP(views.APIView):
     
+    def post(self,request):
+        data= request.data
+        user = User.objects.get(id=data['id'])
+        
+        a = user.otp
+        b= data['OTP']
+        
+        if a==b:
+           user.is_verified = True
+           user.save() 
+           return Response({'otp': 'Successfully verified'}, status=status.HTTP_200_OK)
+        
+        else:
+            return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer

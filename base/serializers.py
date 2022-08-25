@@ -8,7 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'first_name', 'last_name','adhaar_no']
+        fields = ['id','email', 'username', 'password', 'first_name', 'last_name','adhaar_no']
     def validate(self, attrs):
         email = attrs.get('email', '')
         username = attrs.get('username', '')
