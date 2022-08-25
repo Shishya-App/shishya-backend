@@ -9,6 +9,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class User(AbstractUser):
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     is_verified= models.BooleanField(default=False)
+    first_name = models.CharField(max_length=255, null=True, blank= False)
+    last_name = models.CharField(max_length=255, null=True, blank= False)
     
     def __str__(self):
         return self.username
