@@ -302,3 +302,47 @@ Sample Output:
 }
 
 ```
+
+12. Get all Questions of a form
+
+```http
+http://127.0.0.1:8000/adminpanel/questions/1
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `pk` | `String` |Check which pre-verified documents are already uploaded for user|
+
+Sample Output:
+
+```
+{
+    "text_questions": [],
+    "file_questions": [
+        {
+            "id": 1,
+            "form": 1,
+            "title": "Adhaar",
+            "answer": [],
+            "technique": "file_upload"
+        }
+    ],
+    "MCQ_questions": [],
+    "pre_verified": [
+        {
+            "id": 2,
+            "form": 1,
+            "title": "BirthCertificate",
+            "answer": [],
+            "technique": "pre_verified"
+        },
+        {
+            "id": 3,
+            "form": 1,
+            "title": "HSC",
+            "answer": [],
+            "technique": "pre_verified"
+        }
+    ]
+}
+
+```
