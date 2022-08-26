@@ -277,3 +277,8 @@ class NADdocumet(APIView):
             status = status.HTTP_200_OK
         )
         
+# class viewResponses(APIView):
+    
+#     def post(self,request):
+#        data = dict()
+#        FileResponses =  SubmitFileQuestion()
