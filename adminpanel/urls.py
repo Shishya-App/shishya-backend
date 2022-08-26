@@ -7,6 +7,7 @@ from adminpanel.views import *
 urlpatterns = [
     path('form/', FormView.as_view(), name='form'),
     path('form/<int:pk>', FormView.as_view(), name='form'),
+    path('questions/<int:pk>', AllQuestionsView.as_view(), name="allq"),
     path('questions/file/<int:pk>/', FormQuestionFile.as_view(), name='file' ),
     path('questions/file/', FormQuestionFile.as_view(), name='file' ),
     path('questions/mcq/<int:pk>/', FormQuestionMCQ.as_view(), name='mcq' ),
