@@ -184,8 +184,10 @@ class Form(models.Model):
 
     title = models.CharField(max_length=255, default=_(
         "New Form"), verbose_name=_("Form Title"))
-    date_created = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(null=True, blank=True)
+    academic_year  = models.IntegerField()
 
     def __str__(self):
         return str(str(self.id) + "_" + str(self.title))

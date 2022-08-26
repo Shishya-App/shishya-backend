@@ -177,12 +177,16 @@ https://shishya-backend-user.herokuapp.com/adminpanel/form/
 | `Bearer Token` | `String` | Create new Form|
 
 ```
-curl --location --request POST 'https://shishya-backend-user.herokuapp.com/adminpanel/form/' \
---header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU' \
+curl --location --request POST 'http://127.0.0.1:8000/adminpanel/form/' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTI2OTE1LCJpYXQiOjE2NjA2NDY5MTUsImp0aSI6ImJhMTgxYjhkYzllYTRhZTY4OGY4NjM0NzQxM2JiYjRhIiwidXNlcl9pZCI6Mn0.F8AeaijHfPtHZV6oqgZQiulpgN5SyczQYRBFPi78nhI' \
 --header 'Content-Type: application/json' \
+--header 'Cookie: csrftoken=62KjlMixjCOIaieXB4eUNjQidMxmzhsxHmcrjhXZpaPlzMvZb4EhCqdOQNg5t8wx' \
 --data-raw '{
-    "title": "Form2",
-    "owner": 2
+    "title": "Form3",
+    "owner": 35,
+    "deadline": "2022-08-26",
+    "description": "sample description",
+    "academic_year": 2020
 }'
 ```
 ![image](https://user-images.githubusercontent.com/85048574/185063622-9df4e294-8b8d-4be2-a684-498663515ede.png)
