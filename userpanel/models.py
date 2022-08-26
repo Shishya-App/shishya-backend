@@ -1,6 +1,6 @@
 from django.db import models
 from base.models import User
-from adminpanel.models import DocumentModel
+from adminpanel.models import DocumentModel, FileUploadAnswer, Question
 # Create your models here.
 
 class CustomDocumentUploadModel(models.Model):
@@ -17,3 +17,24 @@ class CustomDocumentUploadModel(models.Model):
 class ProfileDocumentModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     NAD_Documents= models.ForeignKey(DocumentModel, on_delete=models.CASCADE)
+    
+class SubmitFileQuestion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.FileField(upload_to ="docs",blank=True)
+    
+class SubmitPreVerifiedQuestion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.IntegerField()
+    
+# class SubmitMCQQuestion(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     answer = models.FileField(upload_to ="docs",blank=True)
+
+class SubmitTextQuestion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.TextField(max_length=1000)
+    

@@ -42,7 +42,7 @@ class PreVerifiedAnswerSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'answer_text',
-        ]        
+        ]       
 
 class MCQTypeAnswerSerializer(serializers.ModelSerializer):
     

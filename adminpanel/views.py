@@ -245,6 +245,10 @@ class AllQuestionsView(generics.GenericAPIView):
         mcq_data =MCQTypeQuestionSerializer(mcq, many = True).data
         data["MCQ_questions"] = [*mcq_data] 
         
+        pre = Question.objects.filter(technique='pre_verified', form= form)
+        pre_data = PreVerfiedQuestionTypeSerializer(pre, many = True).data
+        data["pre_verified"] = [*pre_data] 
+        
         return Response(
             data,
             status = status.HTTP_200_OK
