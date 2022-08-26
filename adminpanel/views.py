@@ -32,21 +32,31 @@ class PersonalDetailsViews(APIView):
         
 class DocumentViews(APIView):
     
-    def get_object(self, pk):
-        try:
-            return DocumentModel.objects.get(pk=pk)
-        except DocumentModel.DoesNotExist:
-            raise Http404
-    
     def get(self, request, format=None):
-        doc = DocumentModel.objects.all()
-        serializer = DocumentSerializer(doc, many=True)
-        return Response(serializer.data)
+        doc = DocumentModel.objects.filter(user=request.user)
+        serializer = DocumentSerializer(doc, many=True).data
+        
+        return Response(serializer)
+
+class DocumentBool(APIView):
     
-    def get(self, request, pk):
-        snippet = self.get_object(pk)
-        serializer = DocumentSerializer(snippet)
-        return Response(serializer.data)
+    def get(self,request,format=None):
+        doc = DocumentModel.objects.filter(user=request.user)
+        serializer = DocumentSerializer(doc, many=True).data
+        data= dict()
+        data = [*serializer]
+        sample = dict()
+        for key,value in data[0].items():
+            # if value=='null':
+            # print(key)
+            # print(value)
+            if value == None:
+                sample[key] = False
+            else:
+                sample[key] = True
+        sample.pop("id")
+        sample.pop("user")
+        return Response(sample)         
     
 class FormView(APIView):
     
@@ -262,3 +272,4 @@ class NADdocumet(APIView):
             final_list,
             status = status.HTTP_200_OK
         )
+        

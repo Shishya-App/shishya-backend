@@ -262,4 +262,39 @@ https://shishya-backend-user.herokuapp.com/userpanel/recent-upload/
 | :-------- | :------- | :------------------------- |
 | `Bearer Token` | `String` |Get recent 5 documents from the profile|
 
+
+
+11.
+
+```http
+https://shishya-backend-user.herokuapp.com/adminpanel/bool-docs/
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `Bearer Token` | `String` |Check which pre-verified documents are already uploaded for user|
+
+Sample Output:
+
+```
+
+{
+    "SSC": false,
+    "HSC": false,
+    "AdhaarFile": false,
+    "MigrationCertificate": false,
+    "JEEmarksheet": false,
+    "JEEallotmentLetter": false,
+    "DisabilityCertificate": false,
+    "DomicileCertificate": false,
+    "PAN": false,
+    "BirthCertificate": true,
+    "SportsCertificate": false,
+    "TransferCertificate": false,
+    "CasteCertificate": false,
+    "Passport": false,
+    "IncomeCertificate": false,
+    "MedicalCertificate": false,
+    "NationalityCertificate": false
+}
+
 ```
