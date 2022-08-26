@@ -1,5 +1,5 @@
 import json
-from adminpanel.models import DocumentModel
+from adminpanel.models import HSC, DocumentModel
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework import generics, permissions, status
@@ -9,7 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from userpanel.models import *
 from userpanel.serializers import *
-from adminpanel.serializers import DocumentSerializer
+from adminpanel.serializers import DocumentSerializer, PreVerfiedQuestionTypeSerializer
 
 # Create your views here.
 
@@ -139,17 +139,37 @@ class SubmitFileQuestionView(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
 class SubmitPreVerifiedQuestionView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = SubmitPreVerifiedQuestionSerializer
+     permission_classes = [permissions.IsAuthenticated]
+     serializer_class = SubmitPreVerifiedQuestionSerializer
     
-    def post(self, request, format=None):
+     def get_queryset(self):
+        return DocumentModel.objects.all()
+    
+     def post(self, request, format=None):
+        doc = DocumentModel.objects.filter(user= request.user)
+        submitpre = SubmitPreVerifiedQuestion(user= request.user)
+        doc_data = DocumentSerializer(doc, many=True).data
+         
         serializer = SubmitPreVerifiedQuestionSerializer(data=request.data)
-        data = serializer.data
-        data["user"] = request.user
-        data["answer"] = DocumentModel.object.get(user=request.user)
+        if not serializer.is_valid():
+            return Response(serializer.errors)
         
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data = serializer.data
+        
+        dummy_doc= doc_data[0]
+        # r= doc_data[data['title']]
+        print(dummy_doc[data['title']])
+        # file = 
+        # print(data['title'])
+        data["file_id"] = dummy_doc[data['title']]
+
+        submitpre.user= request.user
+        submitpre.title = data['title']
+        submitpre.form = data['form']
+        submitpre.question = data['question']
+        submitpre.file_id = dummy_doc[data['title']]
+        submitpre.save()
+        return Response(data, status=status.HTTP_201_CREATED)
+        

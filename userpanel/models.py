@@ -25,8 +25,10 @@ class SubmitFileQuestion(models.Model):
     
 class SubmitPreVerifiedQuestion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.IntegerField()
+    title = models.CharField(max_length=200, null= True, blank= True)
+    form = models.IntegerField()
+    question = models.IntegerField()
+    file_id = models.IntegerField(null=True, blank=True)
     
 # class SubmitMCQQuestion(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)
