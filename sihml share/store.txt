@@ -1,0 +1,3 @@
+adhar recogniser google collab
+
+https://colab.research.google.com/drive/1wTp7KWNQxYiNdRDlfSzAvSjdxlLQVepf?usp=sharing
