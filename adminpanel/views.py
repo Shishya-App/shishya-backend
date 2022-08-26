@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 
 from adminpanel.models import DocumentModel, Form, PersonalDetails, Question
 from base.models import User
+from userpanel.models import SubmitFileQuestion, SubmitPreVerifiedQuestion
+from userpanel.serializers import SubmitFileQuestionSerializer, SubmitPreVerifiedQuestionSerializer
 
 from .serializers import *
 
@@ -276,9 +278,23 @@ class NADdocumet(APIView):
             final_list,
             status = status.HTTP_200_OK
         )
+
         
-# class viewResponses(APIView):
+class viewResponses(APIView):
     
-#     def post(self,request):
-#        data = dict()
-#        FileResponses =  SubmitFileQuestion()
+    def post(self,request):
+       data = dict()
+       data_input = request.data
+       FileResponses =  SubmitFileQuestion.objects.filter(form=data_input["form"])
+       FileResponses_data =  SubmitFileQuestionSerializer(FileResponses, many=True).data
+       
+       PreResponses =  SubmitPreVerifiedQuestion.objects.filter(form=data_input["form"])
+       PreResponses_data =  SubmitPreVerifiedQuestionSerializer(PreResponses, many=True).data
+       
+       data["Custom_Upload"]= FileResponses_data
+       data["Pre Verified"] = PreResponses_data
+       
+       return Response(
+           data,
+           status=status.HTTP_200_OK
+       )

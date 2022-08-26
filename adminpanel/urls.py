@@ -22,4 +22,5 @@ urlpatterns = [
     path('all-questions/<int:pk>', AllQuestionsView.as_view(), name="all-questions"),
     path('nad-docs/', NADdocumet.as_view(),  name= "nad-docs"),
     path('bool-docs/', DocumentBool.as_view(),  name= "bool-docs"),
+    path('view-responses/', viewResponses.as_view(), name = "view-responses")
 ]

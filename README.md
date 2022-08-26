@@ -346,3 +346,54 @@ Sample Output:
 }
 
 ```
+
+13. Get all Responses of a form
+
+Post: http://127.0.0.1:8000/adminpanel/view-responses/
+
+```
+{
+"form":1
+}
+```
+
+Sample Output:
+
+```
+{
+    "Custom_Upload": [
+        {
+            "id": 1,
+            "answer": "/media/docs/riya_--blr_to_abad_dxBRQeg.pdf",
+            "form": 1,
+            "user": 1,
+            "question": 1
+        },
+        {
+            "id": 2,
+            "answer": "/media/docs/riya_--blr_to_abad_nKqR3sV.pdf",
+            "form": 1,
+            "user": 4,
+            "question": 1
+        },
+        {
+            "id": 3,
+            "answer": "/media/docs/riya_--blr_to_abad_LVgs4za.pdf",
+            "form": 1,
+            "user": 1,
+            "question": 1
+        }
+    ],
+    "Pre Verified": [
+        {
+            "id": 1,
+            "title": "HSC",
+            "form": 1,
+            "question": 3,
+            "file_id": 1,
+            "user": 4
+        }
+    ]
+}
+
+```
