@@ -349,7 +349,7 @@ Sample Output:
 
 13. Get all Responses of a form
 
-Post: http://127.0.0.1:8000/adminpanel/view-responses/
+Post: https://shishya-backend-user.herokuapp.com/adminpanel/view-responses/
 
 ```
 {
