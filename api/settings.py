@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import django_heroku
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-_-7s7(=p27mza1tzs^p=o%m#w$7iqb)uah_4lk0ig^s6#7@)vk"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -144,14 +145,6 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER="shishyaapporg@gmail.com"
-EMAIL_HOST_PASSWORD="kbqfslxhwhvoxshq"
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -199,6 +192,6 @@ django_heroku.settings(locals())
 
 AUTH_USER_MODEL = "base.User"
 #Twilio
-TWILIO_PHONE = "+17472943310"
-TWILIO_ACCOUNT_SID = "ACf9b47deca688d4b5a0bb2c0689cd2863"
-TWILIO_AUTH_TOKEN = "059a99bb9acb0cbfd10e58735868ee8d"
+account_sid = config("account_sid")
+auth_token = config("auth_token")
+twilio_phone = config("twilio_phone")

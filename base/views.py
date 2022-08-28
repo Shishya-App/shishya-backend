@@ -1,21 +1,19 @@
 # from .utils import Util
-import jwt
 from adminpanel.models import Adhaar
 from adminpanel.serializers import AdhaarSerializer
-from django.conf import settings
-from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse
 from rest_framework import generics, permissions, status, views
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
 from .serializers import (EmailVerificationSerializer, LoginSerializer,
                           LogoutSerializer, RegisterSerializer)
 from .mixins import *
 import random
+
+
+
+""" Email Verification while signup"""
 
 # Create your views here.
 
@@ -55,11 +53,8 @@ class RegisterView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
-        # user = User.objects.get(email=user_data['email'])
-        # print(user_data['adhaar_no'])
         phone_no  = Adhaar.objects.filter(adhaar_no= user_data['adhaar_no'])
         phone_no_data = AdhaarSerializer(phone_no, many=True).data
-        # data = [*phone_no_data]
         r = dict()
         r= phone_no_data[0]
         phone_number = r['phone_no']
@@ -90,22 +85,22 @@ class VerifyOTP(views.APIView):
             return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
         
 
-class VerifyEmail(views.APIView):
-    serializer_class = EmailVerificationSerializer
+# class VerifyEmail(views.APIView):
+#     serializer_class = EmailVerificationSerializer
 
-    def get(self, request):
-        token = request.GET.get('token')
-        try:
-            payload = jwt.decode(token, settings.SECRET_KEY,algorithms=['HS256'])
-            user = User.objects.get(id=payload['user_id'])
-            if not user.is_verified:
-                user.is_verified = True
-                user.save()
-            return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
-        except jwt.ExpiredSignatureError as identifier:
-            return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
-        except jwt.exceptions.DecodeError as identifier:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+#     def get(self, request):
+#         token = request.GET.get('token')
+#         try:
+#             payload = jwt.decode(token, settings.SECRET_KEY,algorithms=['HS256'])
+#             user = User.objects.get(id=payload['user_id'])
+#             if not user.is_verified:
+#                 user.is_verified = True
+#                 user.save()
+#             return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
+#         except jwt.ExpiredSignatureError as identifier:
+#             return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+#         except jwt.exceptions.DecodeError as identifier:
+#             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginSerializer
@@ -135,7 +130,3 @@ class LogoutAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-""" Email Verification"""
-
