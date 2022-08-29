@@ -50,22 +50,45 @@ https://shishya-backend-user.herokuapp.com/register/
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| - | - | Registers new users (working both admin and user side) |
+| - | - | Registers new users (User side) |
 
 ```
-curl --location --request POST 'http://127.0.0.1:8000/register/' \
+curl --location --request POST 'https://shishya-backend-user.herokuapp.com/register/' \
 --header 'Content-Type: application/json' \
 --header 'Cookie: csrftoken=62KjlMixjCOIaieXB4eUNjQidMxmzhsxHmcrjhXZpaPlzMvZb4EhCqdOQNg5t8wx' \
 --data-raw '{
-    "email": "mugdha4@iiitvadodara.ac.in",
-    "password": "demopass",
-    "username": "mugdha4",
+    "email": "mugdha2@iiitvadodara.ac.in",
+    "password": "********",
+    "username": "mugdha2",
     "first_name": "Mugdha",
-    "last_name" : "Sharma"
+    "last_name" : "Sharma",
+    "adhaar_no": "<a string of length 12, integers>"
 }'
 ```
+As per the problem statement,after registration the user gets OTP at linked phone number with Adhaar card. Twilio free version was used for this purpose.As of now, register only works on some adhaar number because of limited database (if used on heroku url). For local trials, go to django admin and add adhaar number with phone number at DB before registration.
+
+![image](https://user-images.githubusercontent.com/85048574/187081109-9851027a-2b49-47cd-99bc-2897acc32112.png)
+
+Then use the same adhaar to get OTP at registered mobile number.
 
 2.
+```http
+https://shishya-backend-user.herokuapp.com/verify-otp/
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| id | Integer | User ID (provided by django)|
+| OTP | string | string of length 12 characters made of integers|
+
+```
+{
+    "id": 17,
+    "OTP" : "****************"
+}
+
+```
+3.
 
 ```http
 https://shishya-backend-user.herokuapp.com/login/
@@ -98,7 +121,7 @@ sample output of a user
 
 ```
 
-3. 
+4. 
 
 ```http
 https://shishya-backend-user.herokuapp.com/adminpanel/personal-details/
@@ -116,9 +139,9 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 
 ![image](https://user-images.githubusercontent.com/85048574/183633002-613816e1-e033-4dea-a2a3-0c498fd998b9.png)
 
-4. 
+5. 
 ```http
-https://shishya-backend-user.herokuapp.com/adminpanel/document/1
+https://shishya-backend-user.herokuapp.com/adminpanel/document/
 ```
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
@@ -128,18 +151,18 @@ https://shishya-backend-user.herokuapp.com/adminpanel/document/1
 Curl Request
 
 ```
-curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/document/1'
+curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminpanel/document/'
 ```
 ![image](https://user-images.githubusercontent.com/85048574/183633206-520758e4-18a8-4d70-b7f5-3240e61a8762.png)
 
-5.
+6.
 
 ```http
 https://shishya-backend-user.herokuapp.com/adminpanel/all-questions/${form_id}
 ```
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `id` | `int` | View questions of a particular Form|
+| `form_id` | `int` | View questions of a particular Form|
 
 
 ```
@@ -147,10 +170,43 @@ curl --location --request GET 'https://shishya-backend-user.herokuapp.com/adminp
 --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3OTMxNjM5LCJpYXQiOjE2NjA2NTE2MzksImp0aSI6Ijk3OGIwZmE1YmVjMzQ5NjNhMTVjNGU3ZGRhNjQyMGJiIiwidXNlcl9pZCI6Mn0.WpnaBg8LL_dfXvLD38OFKEQBPyc6X05rgneGHbvbBFU'
 
 ```
-![image](https://user-images.githubusercontent.com/85048574/185064105-242efe11-267d-44fa-8a93-21b73f2a9f96.png)
+Sample output
+
+```
+{
+    "text_questions": [],
+    "file_questions": [
+        {
+            "id": 1,
+            "form": 1,
+            "title": "Adhaar",
+            "answer": [],
+            "technique": "file_upload"
+        }
+    ],
+    "MCQ_questions": [],
+    "pre_verified": [
+        {
+            "id": 2,
+            "form": 1,
+            "title": "BirthCertificate",
+            "answer": [],
+            "technique": "pre_verified"
+        },
+        {
+            "id": 3,
+            "form": 1,
+            "title": "HSC",
+            "answer": [],
+            "technique": "pre_verified"
+        }
+    ]
+}
+
+```
 
 
-6. 
+7. 
 
 ```http
 https://shishya-backend-user.herokuapp.com/adminpanel/form/
