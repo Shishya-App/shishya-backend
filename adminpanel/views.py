@@ -80,9 +80,9 @@ class FormView(APIView):
         return Response(serializer.data)
     
     def get(self, request, format=None, **kwargs):
-        form = Form.objects.all()
-        serializer = FormSerializer(form, many=True)
-        return Response(serializer.data,
+        form = Form.objects.filter(owner= request.user)
+        form_data = FormSerializer(form, many=True).data
+        return Response(form_data,
             status = status.HTTP_200_OK)
         
     """Create Form"""
