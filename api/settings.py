@@ -192,6 +192,6 @@ django_heroku.settings(locals())
 
 AUTH_USER_MODEL = "base.User"
 #Twilio
-account_sid = config("account_sid")
-auth_token = config("auth_token")
-twilio_phone = config("twilio_phone")
+account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+twilio_phone = os.environ.get("TWILIO_PHONE_NUMBER")
