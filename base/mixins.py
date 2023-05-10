@@ -1,10 +1,11 @@
 from email import message
 from twilio.rest import Client
 from decouple import config
+import os
 
-account_sid = config("account_sid")
-auth_token = config("auth_token")
-twilio_phone = config("twilio_phone")
+account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+twilio_phone = os.environ.get("TWILIO_PHONE_NUMBER")
 
 
 class MessageHandler:
