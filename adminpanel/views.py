@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -7,6 +7,7 @@ from adminpanel.models import DocumentModel, Form, PersonalDetails, Question
 from base.models import User
 from userpanel.models import SubmitFileQuestion, SubmitPreVerifiedQuestion
 from userpanel.serializers import SubmitFileQuestionSerializer, SubmitPreVerifiedQuestionSerializer
+from rest_framework.decorators import action
 
 from .serializers import *
 
@@ -60,168 +61,207 @@ class DocumentBool(APIView):
         sample.pop("user")
         return Response(sample)         
     
-class FormView(APIView):
+class FormView(viewsets.ModelViewSet):
     
-    serializer_class = FormSerializer
     permission_classes = [permissions.IsAuthenticated]
-    # queryset = Form.objects.all()
+    action_serializers = {
+        'job': JobSerializer,
+        'college': FormSerializer
+    }
+    queryset = Form.objects.all()
     
-    """View Form"""
+    def get_serializer_class(self):
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(FormQuestionPreVerified, self).get_serializer_class()
     
-    def get_object(self, pk):
-        try:
-            return Form.objects.get(pk=pk)
-        except Form.DoesNotExist:
-            raise Http404
-        
-    def get(self, pk):
-        form = self.get_object(pk)
-        serializer = FormSerializer(form)
-        return Response(serializer.data)
+    @action(detail=False, methods=['post', 'get'],url_path='job')
+    def job(self, request, format=None):
+        if request.method == 'GET':
+            job= Job.objects.all()
+            form_data = self.get_serializer_class()(job, many=True).data
+            return Response(form_data,
+                status = status.HTTP_200_OK)
+            
+        serializer = self.get_serializer_class()(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def get(self, request, format=None, **kwargs):
-        form = Form.objects.filter(owner= request.user)
-        form_data = FormSerializer(form, many=True).data
-        return Response(form_data,
-            status = status.HTTP_200_OK)
+    @action(detail=False, methods=['post', 'get'],url_path='college')
+    def college(self, request, format=None):
+        if request.method == 'GET':
+            form = Form.objects.all()
+            form_data = self.get_serializer_class()(form, many=True).data
+            return Response(form_data,status = status.HTTP_200_OK)
         
-    """Create Form"""
-        
-    def post(self, request, format=None):
-        serializer = FormSerializer(data=request.data)
+        serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class FormQuestionText(generics.GenericAPIView):
+class FormQuestionText(viewsets.ModelViewSet):
     
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TextTypeQuestionSerializer
-    queryset = Question.objects.all()
+    action_serializers = {
+        'job': JobTextTypeQuestionSerializer,
+        'college': TextTypeQuestionSerializer
+    }
     
-    """View all questions of form"""
-    
-    def get_object(self, pk):
-        try:
-            return Form.objects.get(pk=pk)
-        except Form.DoesNotExist:
-            raise Http404
-        
-    def get(self, pk):
-        form = self.get_object(pk)
-        serializer = TextTypeQuestionSerializer(form)
-        return Response(serializer.data)
-    
-    def get(self, request, format=None, **kwargs):
-        form = Question.objects.filter(technique='text')
-        serializer = TextTypeQuestionSerializer(form, many=True)
-        return Response(serializer.data,status = status.HTTP_200_OK)
+    def get_serializer_class(self):
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(FormQuestionText, self).get_serializer_class()
     
     """Add questions to existing form"""
     
-    def post(self, request, format=None):
-        serializer = TextTypeQuestionSerializer(data=request.data)
+    @action(detail=False, methods=['post', 'get'],url_path='college')
+    def college(self, request, format=None,**kwargs):
+        serializer = self.get_serializer_class()(data=request.data)
+        if request.method == 'GET':
+            form_id = request.query_params.get('form')
+            
+            if form_id:
+                form = Question.objects.filter(form=form_id, technique='text')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                form = Question.objects.filter(technique='text')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-class FormQuestionMCQ(generics.GenericAPIView):
-    
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = MCQTypeQuestionSerializer
-    queryset = Question.objects.all()
-    
-    """View all questions of form"""
-    
-    def get_object(self, pk):
-        try:
-            return Form.objects.get(pk=pk)
-        except Form.DoesNotExist:
-            raise Http404
-        
-    def get(self, pk):
-        form = self.get_object(pk)
-        serializer = MCQTypeQuestionSerializer(form)
-        return Response(serializer.data)
-    
-    def get(self, request, format=None, **kwargs):
-        form = Question.objects.filter(technique='mcq_one')
-        serializer = MCQTypeQuestionSerializer(form, many=True)
-        return Response(serializer.data,status = status.HTTP_200_OK)
-    
-    """Add questions to existing form"""
-    
-    def post(self, request, format=None):
-        serializer = MCQTypeQuestionSerializer(data=request.data)
+    @action(detail=False, methods=['post', 'get'],url_path='job')
+    def job(self,request):
+        serializer = self.get_serializer_class()(data=request.data)
+        if request.method == 'GET':
+            job_id = request.query_params.get('job')
+            if job_id:
+                job = JobQuestion.objects.filter(job=job_id, technique='text')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                job = JobQuestion.objects.filter(technique='text')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class FormQuestionFile(generics.GenericAPIView):
-    
+class FormQuestionFile(viewsets.ModelViewSet):
+    queryset = Question.objects.filter(technique='file_upload')
+    action_serializers = {
+        'job': JobFileTypeQuestionSerializer,
+        'college': FileTypeQuestionSerializer
+    }
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = FileTypeQuestionSerializer
-    queryset = Question.objects.all()
     
-    """View all questions of form"""
+    def get_serializer_class(self):
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(FormQuestionFile, self).get_serializer_class()
     
-    def get_object(self, pk):
-        try:
-            return Form.objects.get(pk=pk)
-        except Form.DoesNotExist:
-            raise Http404
-        
-    def get(self, pk):
-        form = self.get_object(pk)
-        serializer = FileTypeQuestionSerializer(form)
-        return Response(serializer.data)
-    
-    def get(self, request, format=None, **kwargs):
-        form = Question.objects.filter(technique='file_upload')
-        serializer = FileTypeQuestionSerializer(form, many=True)
-        return Response(serializer.data,status = status.HTTP_200_OK)
-    
-    """Add questions to existing form"""
-    
-    def post(self, request, format=None):
-        serializer = FileTypeQuestionSerializer(data=request.data)
+    @action(detail=False, methods=['post', 'get'],url_path='college')
+    def college(self, request, format=None,**kwargs):
+        serializer = self.get_serializer_class()(data=request.data)
+        if request.method == 'GET':
+            form_id = request.query_params.get('form')
+            if form_id:
+                form = Question.objects.filter(form=form_id, technique='file_upload')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                form = Question.objects.filter(technique='file_upload')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class FormQuestionPreVerified(generics.GenericAPIView):
+    @action(detail=False, methods=['post', 'get'],url_path='job')
+    def job(self,request):
+        serializer = self.get_serializer_class()(data=request.data)
+        if request.method == 'GET':
+            job_id = request.query_params.get('job')
+            if job_id:
+                job = JobQuestion.objects.filter(job=job_id, technique='file_upload')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                job = JobQuestion.objects.filter(technique='file_upload')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    
+class FormQuestionPreVerified(viewsets.ModelViewSet):
+    queryset = Question.objects.filter(technique='pre_verified')
+    action_serializers = {
+        'job': JobPreVerfiedQuestionTypeSerializer,
+        'college': PreVerfiedQuestionTypeSerializer
+    }
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = PreVerfiedQuestionTypeSerializer
-    queryset = Question.objects.all()
     
-    """View all questions of form"""
-    
-    def get_object(self, pk):
-        try:
-            return Form.objects.get(pk=pk)
-        except Form.DoesNotExist:
-            raise Http404
-        
-    def get(self, pk):
-        form = self.get_object(pk)
-        serializer = PreVerfiedQuestionTypeSerializer(form)
-        return Response(serializer.data)
-    
-    def get(self, request, format=None, **kwargs):
-        form = Question.objects.filter(technique='pre_verified')
-        serializer = PreVerfiedQuestionTypeSerializer(form, many=True)
-        return Response(serializer.data,status = status.HTTP_200_OK)
-    
+    def get_serializer_class(self):
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(FormQuestionPreVerified, self).get_serializer_class()
     """Add questions to existing form"""
     
-    def post(self, request, format=None):
-        serializer = PreVerfiedQuestionTypeSerializer(data=request.data)
+    @action(detail=False, methods=['post', 'get'],url_path='college')
+    def college(self, request, format=None,**kwargs):
+        serializer = self.get_serializer_class()(data=request.data)
+        
+        if request.method == 'GET':
+            form_id = request.query_params.get('form')
+            print(form_id)
+            if form_id:
+                form = Question.objects.filter(form=form_id, technique='pre_verified')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                form = Question.objects.filter(technique='pre_verified')
+                serializer = self.get_serializer_class()(form, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['post', 'get'],url_path='job')
+    def job(self,request):
+        serializer = self.get_serializer_class()(data=request.data)
+        if request.method == 'GET':
+            job_id = request.query_params.get('job')
+            if job_id:
+                job = JobQuestion.objects.filter(job=job_id, technique='pre_verified')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+            else:
+                job = JobQuestion.objects.filter(technique='pre_verified')
+                serializer = self.get_serializer_class()(job, many=True)
+                return Response(serializer.data,status = status.HTTP_200_OK)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -242,10 +282,6 @@ class AllQuestionsView(generics.GenericAPIView):
         file = Question.objects.filter(technique='file_upload', form= form)
         file_data =FileTypeQuestionSerializer(file, many = True).data
         data["file_questions"] = [*file_data] 
-        
-        mcq = Question.objects.filter(technique='mcq', form= form)
-        mcq_data =MCQTypeQuestionSerializer(mcq, many = True).data
-        data["MCQ_questions"] = [*mcq_data] 
         
         pre = Question.objects.filter(technique='pre_verified', form= form)
         pre_data = PreVerfiedQuestionTypeSerializer(pre, many = True).data
