@@ -1,5 +1,5 @@
 import json
-from adminpanel.models import HSC, DocumentModel
+from adminpanel.models import HSC, DocumentModel, Form
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework import generics, permissions, status
@@ -167,7 +167,7 @@ class SubmitPreVerifiedQuestionView(generics.GenericAPIView):
 
         submitpre.user= request.user
         submitpre.title = data['title']
-        submitpre.form = data['form']
+        submitpre.form = Form.objects.filter(id = data['form']).first()
         submitpre.question = data['question']
         submitpre.file_id = dummy_doc[data['title']]
         submitpre.save()

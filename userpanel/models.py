@@ -22,12 +22,12 @@ class SubmitFileQuestion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.FileField(upload_to ="docs",blank=True)
-    form = models.IntegerField()
+    form = models.ForeignKey('adminpanel.Form', on_delete=models.CASCADE)
     
 class SubmitPreVerifiedQuestion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, null= True, blank= True)
-    form = models.IntegerField()
+    form = models.ForeignKey('adminpanel.Form', on_delete=models.CASCADE)
     question = models.IntegerField()
     file_id = models.IntegerField(null=True, blank=True)
     
@@ -40,4 +40,5 @@ class SubmitTextQuestion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.TextField(max_length=1000)
+    form = models.ForeignKey('adminpanel.Form', on_delete=models.CASCADE)
     

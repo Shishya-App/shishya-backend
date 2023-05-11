@@ -320,22 +320,24 @@ class viewResponses(APIView):
     
     def get(self,request):
         data = dict()
-        user = User.objects.get(id=2)
+        forms = Form.objects.filter(owner=request.user)
         
-        datadict= DocumentModel.objects.filter(user=user)
-        datadict_data = DocumentSerializer(datadict, many = True).data
-        data = [*datadict_data]
+        # get all responses from submitfile question model and sumit pre verified question model of forms created by request.user
         
-        sample_dict= dict()
-        sample_dict= data[0]
+        for form in forms:
+            FileResponses =  SubmitFileQuestion.objects.filter(form=form)
+            FileResponses_data =  SubmitFileQuestionSerializer(FileResponses, many=True).data
+            data['custom_upload']= FileResponses_data
+            
+            PreResponses =  SubmitPreVerifiedQuestion.objects.filter(form=form)
+            PreResponses_data =  SubmitPreVerifiedQuestionSerializer(PreResponses, many=True).data
+            data['Pre Verified']= PreResponses_data
+        
 
-        final_list= list(sample_dict.keys())
-        final_list.pop(0)
-        final_list.pop(0)
-        
+            
         return Response(
-            final_list,
-            status = status.HTTP_200_OK
+            data,
+            status=status.HTTP_200_OK
         )
     
     def post(self,request):
